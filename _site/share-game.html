@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+	<head>
+		<title>darren - Impress demo</title>
+		<meta charset="utf-8" >
+		<link href="http://bartaz.github.com/impress.js/css/impress-demo.css" rel="stylesheet" >
+	</head>
+	<body>
+		<div class="impress-not-supported">
+			<div class="fallback-message">
+				<p>你的浏览器<b>不支持</b> impress.js, 所以当前展示的是简化版。</p>
+				<p>为了获得更好的体验，请使用最新的 <b>Chrome</b>, <b>Safari</b> 或者 <b>Firefox</b> 浏览器。</p>
+			</div>
+		</div>
+		<div id="impress">
+			<!--简介-->
+			<div id="title" class="step" data-x="0" data-y="0">
+				<span class="try"></span>
+				<h1>游戏快跑</h1>
+				<span class="footnote">by yujiang</span>
+			</div>
+			<div class="step" data-x="900" data-y="0">
+					<q>先来看看当天的DEMO<a target="_blank" href="http://doodle.taobao.com/?year=2013&id=2">传送...</a></q>	
+			</div>
+			<div class="step" data-x="500" data-y="-400">
+				<q>事情其实是这样的...<a target="_blank" href="http://work.taobao.net/issues/1965/">穿越...</a></q>
+				<img style="width:200px" src="http://yunpan.alibaba-inc.com/GetPhotoTag.do?fileId=96171140&spaceId=0" />
+			</div>
+			<div class="step" data-x="500" data-y="-800" data-scale="0.5">
+				<q>第一次比较紧张...那么从何处开始下手呢?!</q>		
+				<q>然后..经过<b>深入</b>的思考</q>
+				<img src="http://yunpan.alibaba-inc.com/GetPhotoTag.do?fileId=96172213&spaceId=0" >
+			</div>
+			<!--简介-->
+			<!-- 初级-操作和碰撞 -->
+			<div class="step" data-x="0" data-y="-800" data-rotate="90">
+				<q>首先应该搞个能蹦蹦跳跳的东东...</q>
+				<ul>
+					<li>1.建立定时器</li>	
+					<li>2.建立视口</li>	
+					<li>3.创建个DIV表示牛郎...</li>
+					<li>4.绑定事件(这里需要一个小技巧)</li>	
+				</ul>
+				<q>当时的样子就像：</q>
+				<div style="background:#ffffff;display:block;width:200px;height:200px;position:relative;">
+					<div style="background:red;display:block;width:30px;height:50px;position:absolute;bottom:0;left:50px;">
+				</div>
+				</div>
+			</div>
+			<div class="step" data-x="500" data-y="500"> 
+				<q>为了让它能够完成跳跃的功能</q>
+				<ul>
+					<li>1.模拟重力</li>	
+					<li>2.创建简单的物理量</li>	
+					<li>3.设置主循环(之后所有操作都在这里搞定)</li>	
+				</ul>
+				<img src="http://yunpan.alibaba-inc.com/GetPhotoTag.do?fileId=96159799&spaceId=0">
+			</div>
+			<div class="step" data-x="-1200" data-y="0" data-rotate-x="0" data-rotate-y="-10" data-rotate-z="10" data-scale="2">
+				<q>好的！已经可以跳了</q>
+				<q>那么接下来是...碰撞检测</q>
+				<p>既然是碰撞，那么首先需要生成障碍物——建立一个Crash Maker
+					<a target="_blank" href="https://github.com/nikogu/TaobaoGame/tree/master/qx/crashMaker.js">具体</a>
+				</p>
+				<img src="http://yunpan.alibaba-inc.com/GetPhotoTag.do?fileId=96176777&spaceId=0"/>
+			</div>
+			<div class="step" data-x="-2500" data-y="0">
+				<q>有了对象，就可以做碰撞检测啦！！</q>
+				<p>1.其实就是基于位置的判断，但是要注意速度和帧数的影响</p>
+				<p>2.完善碰撞之后的操作：修改速度以及改变状态</p>
+				<p>3.其中状态的操作就是简单的改变信号量</p>
+			</div>
+			<!-- 初级-操作和碰撞 -->
+
+			<!-- 中级-动画和场景架构 -->
+			<div class="step" data-x="-2500" data-y="500">
+				<q>完成了碰撞和基本的操作之后..需要考虑的是——场景构架</q>
+				<ul>
+					<li>1.视口对应</li>	
+					<li>2.背景搭建</li>	
+				</ul>
+				<q>所采用的方法是<a target="_blank" href="https://github.com/nikogu/TaobaoGame/tree/master/qx/qx-global.js">等比变换</a></q>
+				<q>看<a target="_blank" href="http://doodle.taobao.com/?year=2013&id=2">DEMO</a>说话</q>
+			</div>
+			<div class="step" data-x="-2500" data-y="1000">
+				<q>完成了上述工作以后...接下来是——分帧动画啊！</q>	
+				<img src="http://yunpan.alibaba-inc.com/GetPhotoTag.do?fileId=96177569&spaceId=0">
+			</div>
+			<div class="step" data-x="-4500" data-y="1000" data-scale="2">
+				<q>全局主循环可以来容纳帧动画，但是还需要：</q>	
+				<ul>
+					<li>1.与游戏逻辑耦合</li>	
+					<li>2.能够清理</li>	
+					<li>3.需要处理事件</li>
+				</ul>
+				<q>建立动画管理对象
+					<a target="_blank" href="https://github.com/nikogu/TaobaoGame/blob/master/qx/animMaker.js">AnimMaker!</a>
+				</q>
+				<img src="http://yunpan.alibaba-inc.com/GetPhotoTag.do?fileId=96178738&spaceId=0">
+			</div>
+			<div class="step" data-x="-4500" data-y="0"> 
+				<h4>接着...建立织女和雷震子以便与参与动画（他们不会被用户操作，但是剧情需要）</h3>
+				<q>最终，把模块组合在一起，创建触发点和流程逻辑，游戏就诞生啦！</q>
+			</div>
+			<!-- 中级-动画和场景架构 -->
+
+			<!-- 高级-性能和兼容性 -->
+			<div class="step" data-x="-4500" data-y="-1000" data-rotate="45">
+				<h3>性能和兼容性</h3>		
+				<ul>
+					<li>1.视图渲染放在最后操作</li>
+					<li>2.利用节点缓存数据</li>
+				</ul>
+			</div>
+			<!-- 高级-性能和兼容性 -->
+
+			<!-- 结束 -->
+			<div class="step" data-x="-5500" data-y="-1000" data-rotate-x="30" data-rotate-y="-30" data-rotate-z="30"> 
+				<q>其它</q>	
+				<img src="http://yunpan.alibaba-inc.com/GetPhotoTag.do?fileId=96182063&spaceId=0" >
+			</div>
+			<div class="step" data-x="-5500" data-y="-2000" data-scale="4">
+				<h1 class="title">就这么愉快的结束了！</title>
+				<img src="http://yunpan.alibaba-inc.com/GetPhotoTag.do?fileId=96182614&spaceId=0">
+			</div>
+			<!-- 结束 -->
+
+
+			<!-- darren code -->
+
+			<div id="overview" class="step" data-x="-200" data-y="-500" data-scale="3"></div>
+		</div>
+		<script src="http://bartaz.github.com/impress.js/js/impress.js"></script>
+		<script>impress().init();</script>
+	</body>
+</html>

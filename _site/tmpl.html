@@ -1,0 +1,146 @@
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<title>Dynamic Reverse Template Engine for KISSY DEMO</title>
+	<style type="text/css">
+		body {
+			background: #eeeeee url(./juren.jpg) repeat;
+		}
+		h1 {
+			background-color: rgba(0, 0, 0, 0.4);
+			color: #ffffff;
+			display: block;
+			font-size: 22px;
+			font-family: "Microsoft YaHei";
+			font-weight: normal;
+			line-height: 40px;
+			width: 100%;
+			text-align: center;
+		}
+		#music-box {
+			display: none;
+			overflow: hidden;
+			padding: 20px;
+			margin: 0 auto;
+			width: 1000px;
+			height: 500px;
+			-webkit-transform: rotate(180deg);
+		}
+		#music-box .note {
+			box-shadow: 0 0 15px rgba(200, 50, 50, 0.5);
+			display: block;
+			float: left;
+			position: relative;
+			width: 100px;
+			-webkit-transition: all 1s ease;
+		}
+		#music-box .note span {
+			color: #ffffff;
+			position: absolute;
+			bottom: 5px;
+			left: 50%;
+			margin-left: -50px;
+			font-family: "Microsoft YaHei";
+			font-size: 20px;
+			font-weight: bold;
+			letter-spacing: 0.1em;
+			width: 100px;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			-webkit-transform: rotate(180deg);
+		}
+	</style>
+</head>
+<body>
+	<!--
+	*
+	* 动态模板技术
+	* 可以写类javascript的模板
+	* 每次渲染都可以动态更新需要监听的数据，根据数据变化视图！
+	* 支持class、attr、style、value、text的变化
+	* 高端大气上档次有木有！
+	*
+	-->
+	<h1>Dynamic Reverse Template Engine for KISSY DEMO</h1>
+	<div id="content"> </div>
+	<!-- template -->
+	<!--
+	* 给元素添加 node-watch class可以标示此元素被监听
+	* data-watch 属性 标示被监听的属性[type, key, value]
+	-->
+	<script type="text/html" id="tpl">
+		<ul id="music-box">
+		<% for (var i = 0; i<music.length; i++) { %>
+			<li class="note node-watch" data-watch="style:height:music[<%=i%>].height,style:background:music[<%=i%>].color" style="height:<%=music[i].height%>px;background:<%=music[i].color%>;">
+
+				<span><%=music[i].note.toUpperCase()%></span>	
+
+			</li>
+		<% } %>
+		</ul>
+	</script>
+
+	<!-- import kissy -->
+	<script type="text/javascript" src="http://g.tbcdn.cn/kissy/k/1.3.1/seed-min.js"></script>
+
+	<!-- engine -->
+	<script src="./tmpl.js"></script>
+
+	<!-- main -->
+	<script>
+		KISSY.use('tmpl', function(S, Tmpl) {
+
+			var $ = S.Node.all;
+
+			//随机产生数据
+			function rand(min, max) {
+				return Math.floor( Math.random()*(max+1-min) ) + min;
+			}
+
+			function randomColor() {
+				var color = 'rgba(';
+
+				color += rand(1, 254) + ',';
+				color += rand(1, 254) + ',';
+				color += rand(1, 254) + ',';
+				color += rand(4, 8)*0.1;
+
+				color += ')';
+
+				return color;
+			}
+
+			function randomHeight() {
+				return rand(50, 500);
+			}
+
+			//数据
+			function getData() {
+				var data = {};
+				data.music = [];
+				for ( var i = 10; i--; ) {
+					data.music.push({
+						note: 'amo'+i,	
+						color: randomColor(),
+						height: randomHeight()
+					});
+				}
+				return data;
+			}
+
+			//主函数
+			var timer = setInterval(function() {
+				if ( !$('#music-box')[0] ) {
+					Tmpl($('#tpl'), $('#content'), getData());
+					$('#music-box').fadeIn();
+				} else {
+					Tmpl($('#tpl'), $('#content'), getData());
+				}
+			}, 1000);
+
+		});
+
+	</script>
+
+</body>
